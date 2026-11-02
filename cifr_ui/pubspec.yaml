@@ -1,0 +1,31 @@
+name: cifr_community
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.13.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cifr:
+    path: ../../../../CifrPlatform/Platform/cifr
+  cifr_plugin_api:
+    path: ../../../../CifrPlatform/Platform/packages/cifr_plugin_api
+  cifr_coding_pack:
+    path: ../packages/cifr_coding_pack
+  cifr_coding_core:
+    path: ../packages/cifr_coding_core
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+

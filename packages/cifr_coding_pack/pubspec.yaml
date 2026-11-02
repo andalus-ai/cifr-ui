@@ -1,0 +1,38 @@
+name: cifr_coding_pack
+description: Aggregated AI Coding Agent suite and Vibe Coding workspace mode for Cifr.
+version: 0.0.1
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^3.4.1
+  cifr_plugin_api:
+    path: ../../../../../CifrPlatform/Platform/packages/cifr_plugin_api
+  cifr_plugin_runtime:
+    path: ../../../../../CifrPlatform/Platform/packages/cifr_plugin_runtime
+  cifr_coding_core:
+    path: ../cifr_coding_core
+  cifr_plugin_chat:
+    path: ../../../../../CifrPlatform/Platform/packages/cifr_plugin_chat
+  cifr_plugin_editor:
+    path: ../../../../../CifrPlatform/Platform/packages/cifr_plugin_editor
+  cifr_plugin_diff:
+    path: ../../../../../CifrPlatform/Platform/packages/cifr_plugin_diff
+  cifr_plugin_terminal:
+    path: ../../../../../CifrPlatform/Platform/packages/cifr_plugin_terminal
+  cifr_plugin_mutations:
+    path: ../../../../../CifrPlatform/Platform/packages/cifr_plugin_mutations
+  cifr_plugin_agent_run:
+    path: ../../../../../CifrPlatform/Platform/packages/cifr_plugin_agent_run
+  cifr_plugin_project:
+    path: ../../../../../CifrPlatform/Platform/packages/cifr_plugin_project
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0

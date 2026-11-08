@@ -1,4 +1,4 @@
-enum TimelineEventKind {
+enum CodingTimelineEventKind {
   phaseStarted,
   decisionMade,
   toolInvoked,
@@ -10,17 +10,18 @@ enum TimelineEventKind {
   error;
 }
 
-class TimelineEvent {
+/// A structured event emitted during a Cifr coding-agent execution.
+class CodingTimelineEvent {
   final String id;
   final String executionId;
   final String phase;
-  final TimelineEventKind kind;
+  final CodingTimelineEventKind kind;
   final String title;
   final String details;
-  final Map<String, dynamic> payload;
+  final Map<String, Object?> payload;
   final DateTime timestamp;
 
-  TimelineEvent({
+  CodingTimelineEvent({
     required this.id,
     required this.executionId,
     required this.phase,
@@ -31,7 +32,7 @@ class TimelineEvent {
     DateTime? timestamp,
   }) : timestamp = timestamp ?? DateTime.now();
 
-  Map<String, dynamic> toJson() => {
+  Map<String, Object?> toJson() => {
         'id': id,
         'executionId': executionId,
         'phase': phase,
@@ -42,21 +43,22 @@ class TimelineEvent {
         'timestamp': timestamp.toIso8601String(),
       };
 
-  factory TimelineEvent.fromJson(Map<String, dynamic> json) {
-    return TimelineEvent(
+  factory CodingTimelineEvent.fromJson(Map<String, dynamic> json) {
+    final rawPayload = json['payload'];
+    return CodingTimelineEvent(
       id: json['id'] as String? ?? '',
       executionId: json['executionId'] as String? ?? '',
       phase: json['phase'] as String? ?? 'GENERAL',
-      kind: TimelineEventKind.values.firstWhere(
-        (k) => k.name == json['kind'],
-        orElse: () => TimelineEventKind.thoughtToken,
+      kind: CodingTimelineEventKind.values.firstWhere(
+        (value) => value.name == json['kind'],
+        orElse: () => CodingTimelineEventKind.error,
       ),
       title: json['title'] as String? ?? '',
       details: json['details'] as String? ?? '',
-      payload: (json['payload'] as Map?)?.cast<String, dynamic>() ?? const {},
-      timestamp: json['timestamp'] != null
-          ? DateTime.tryParse(json['timestamp'] as String)
-          : null,
+      payload: rawPayload is Map
+          ? rawPayload.map((key, value) => MapEntry(key.toString(), value))
+          : const {},
+      timestamp: DateTime.tryParse(json['timestamp'] as String? ?? ''),
     );
   }
 }

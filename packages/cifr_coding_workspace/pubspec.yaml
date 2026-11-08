@@ -1,0 +1,17 @@
+name: cifr_coding_workspace
+description: Coding repository workspace, work-item, and execution timeline models for Cifr.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ^3.13.2
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0

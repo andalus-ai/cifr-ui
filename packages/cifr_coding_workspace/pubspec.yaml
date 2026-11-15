@@ -1,0 +1,11 @@
+name: cifr_coding_workspace
+description: Coding repository workspace, work-item, and execution timeline models for Cifr.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ^3.13.2
+
+dev_dependencies:
+  test: ^1.25.0
+  lints: ^6.0.0

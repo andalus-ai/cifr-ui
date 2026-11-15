@@ -1,69 +1,64 @@
-enum WorkType {
+enum CodingWorkType {
   feature,
   bug,
   refactor,
   review,
   research;
 
-  String get label {
-    switch (this) {
-      case WorkType.feature:
-        return 'Feature';
-      case WorkType.bug:
-        return 'Bug Fix';
-      case WorkType.refactor:
-        return 'Refactor';
-      case WorkType.review:
-        return 'Code Review';
-      case WorkType.research:
-        return 'Research';
-    }
-  }
+  String get label => switch (this) {
+        CodingWorkType.feature => 'Feature',
+        CodingWorkType.bug => 'Bug Fix',
+        CodingWorkType.refactor => 'Refactor',
+        CodingWorkType.review => 'Code Review',
+        CodingWorkType.research => 'Research',
+      };
 }
 
-enum WorkStatus {
+enum CodingWorkStatus {
   todo,
   inProgress,
   verified,
   completed,
   failed;
 
-  bool get isTerminal => this == WorkStatus.completed || this == WorkStatus.failed;
+  bool get isTerminal =>
+      this == CodingWorkStatus.completed || this == CodingWorkStatus.failed;
 }
 
-class WorkItem {
+/// A unit of coding-agent work associated with a repository workspace.
+class CodingWorkItem {
   final String id;
   final String workspaceId;
-  final WorkType type;
+  final CodingWorkType type;
   final String title;
   final String description;
-  final WorkStatus status;
+  final CodingWorkStatus status;
   final DateTime createdAt;
   final DateTime updatedAt;
 
-  WorkItem({
+  CodingWorkItem({
     required this.id,
     required this.workspaceId,
     required this.type,
     required this.title,
     required this.description,
-    this.status = WorkStatus.todo,
+    this.status = CodingWorkStatus.todo,
     DateTime? createdAt,
     DateTime? updatedAt,
   })  : createdAt = createdAt ?? DateTime.now(),
         updatedAt = updatedAt ?? DateTime.now();
 
-  WorkItem copyWith({
+  CodingWorkItem copyWith({
     String? id,
     String? workspaceId,
-    WorkType? type,
+    CodingWorkType? type,
     String? title,
     String? description,
-    WorkStatus? status,
+    CodingWorkStatus? status,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
-    return WorkItem(
+    return CodingWorkItem(
       id: id ?? this.id,
       workspaceId: workspaceId ?? this.workspaceId,
       type: type ?? this.type,
@@ -75,7 +70,7 @@ class WorkItem {
     );
   }
 
-  Map<String, dynamic> toJson() => {
+  Map<String, Object?> toJson() => {
         'id': id,
         'workspaceId': workspaceId,
         'type': type.name,
@@ -86,26 +81,22 @@ class WorkItem {
         'updatedAt': updatedAt.toIso8601String(),
       };
 
-  factory WorkItem.fromJson(Map<String, dynamic> json) {
-    return WorkItem(
-      id: json['id'] as String,
+  factory CodingWorkItem.fromJson(Map<String, dynamic> json) {
+    return CodingWorkItem(
+      id: json['id'] as String? ?? '',
       workspaceId: json['workspaceId'] as String? ?? '',
-      type: WorkType.values.firstWhere(
-        (t) => t.name == json['type'],
-        orElse: () => WorkType.feature,
+      type: CodingWorkType.values.firstWhere(
+        (value) => value.name == json['type'],
+        orElse: () => CodingWorkType.feature,
       ),
       title: json['title'] as String? ?? '',
       description: json['description'] as String? ?? '',
-      status: WorkStatus.values.firstWhere(
-        (s) => s.name == json['status'],
-        orElse: () => WorkStatus.todo,
+      status: CodingWorkStatus.values.firstWhere(
+        (value) => value.name == json['status'],
+        orElse: () => CodingWorkStatus.todo,
       ),
-      createdAt: json['createdAt'] != null
-          ? DateTime.tryParse(json['createdAt'] as String)
-          : null,
-      updatedAt: json['updatedAt'] != null
-          ? DateTime.tryParse(json['updatedAt'] as String)
-          : null,
+      createdAt: DateTime.tryParse(json['createdAt'] as String? ?? ''),
+      updatedAt: DateTime.tryParse(json['updatedAt'] as String? ?? ''),
     );
   }
 }
